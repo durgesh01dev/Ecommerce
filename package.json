@@ -1,0 +1,26 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "e-commerce application using MERN stack",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "dev" : "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durgesh01dev/Ecommerce.git"
+  },
+  "author": "durgesh kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/durgesh01dev/Ecommerce/issues"
+  },
+  "homepage": "https://github.com/durgesh01dev/Ecommerce#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.0"
+  }
+}

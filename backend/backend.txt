@@ -1,0 +1,39 @@
+1. Created two js files namely app.js and server.js
+
+2. now initialize the nodejs project
+npm init
+
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "e-commerce application using MERN stack",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durgesh01dev/Ecommerce.git"
+  },
+  "author": "durgesh kumar",
+
+3. install express, mongoose, and dotenv dependencies
+npm i express mongoose dotenv
+
+4. significance of gitignore files
+https://careerkarma.com/blog/gitignore/
+
+5. Configuring port number using dotenv
+https://www.dotenv.org/docs/how-to/use-dotenv-with-express
+
+6. installing nodemon
+=> for automatic restarting the node application whenever the file changes.
+=> https://www.npmjs.com/package/nodemon
+
+7. Adding attributes in package.json within the scripts key
+"start": "node backend/server.js",
+"dev" : "nodemon backend/server.js"
+
+8. Making routes and controllers folder within the backend folder
+Current path is:
+http://localhost:4000/api/v1/products
