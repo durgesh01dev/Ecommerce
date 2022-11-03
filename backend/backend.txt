@@ -35,5 +35,48 @@ https://www.dotenv.org/docs/how-to/use-dotenv-with-express
 "dev" : "nodemon backend/server.js"
 
 8. Making routes and controllers folder within the backend folder
-Current path is:
+9. undefined value for port number
+https://stackoverflow.com/questions/71170213/server-port-undefined-in-node
+
+Current url path is:
 http://localhost:4000/api/v1/products
+
+10. connecting the mongoDB database
+=> The connectDatabase defined within the database.js file is responsible for connecting the mongoDB along with the server.
+=> The databse url is defined dotenv file named  config.env as-
+DB_URI = "mongo://localhostL27017/Ecommerce"
+=> The parsing error with the DB_URI arises
+//MongoParseError: Invalid scheme, expected connection string to start with "mongodb://" or "mongodb+srv://"
+FIXED by using mongodb in DB_URI.
+
+=> Error, MongoParseError: option usecreateindex is not supported at parseOptions 
+The mongoose version used is 6.7, here  useNewUrlParser, useUnifiedTopology, useFindAndModify, and useCreateIndex are always true and .useFindAndModify is false. No need to use them explicitly in code
+FIXED by
+-> https://namespaceit.com/blog/mongoparseerror-options-usecreateindex-usefindandmodify-are-not-supported
+
+=> Error, MongooseServerSelectionError: connect ECONNREFUSED ::1:27017
+-> This means mongodb is not started yet, first start it., DB_URI = "mongodb://localhost:27017/Ecommerce" did not work 
+->The url approach worked as- 
+  DB_URI = "mongodb://127.0.0.1/Ecommerce"
+
+
+11. MAKING ROUTES NOW
+A. First make product model, productModel.js
+productSchema developed having attributes like 
+  name,  description,  price,  rating,
+  images is array of object which comprises internal properties for public_id, and url fields,
+  category,  Stock  numOfReviews,
+  reviews is array of object which comprises name, rating, comment,
+  createdAt
+
+12. productController.js file
+i. import the productModel.js
+ii. define method to createProduct by storing the product details from the request body.
+iii. This call is async-await, since it can take any number of time.
+iv. Provide the route to create a new product in Ecommerce database, within the productRoute.js file
+-> router.route('/product/new').post(createProduct);
+v. Required url is 
+http://localhost:4000/api/v1/products/new
+
+13. Api calls for createProduct and getAllProducts are working fine.
+Duplicate products are also stored for now.
