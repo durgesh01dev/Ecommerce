@@ -41,6 +41,8 @@ https://stackoverflow.com/questions/71170213/server-port-undefined-in-node
 Current url path is:
 http://localhost:4000/api/v1/products
 
+=> To run the server, use the command, npm run dev
+
 10. connecting the mongoDB database
 => The connectDatabase defined within the database.js file is responsible for connecting the mongoDB along with the server.
 => The databse url is defined dotenv file named  config.env as-
@@ -80,3 +82,23 @@ http://localhost:4000/api/v1/products/new
 
 13. Api calls for createProduct and getAllProducts are working fine.
 Duplicate products are also stored for now.
+
+
+14. Api for updating the product by id - ADMIN
+=> To access path parameter use request.params.path_variable_name
+=> Find the product by id using findById method
+=> further if product exists, then for updation use the function findByIdAndUpdate.
+
+15. API for deleting the product by ID - ADMIN
+=> First check if product with mentioned id exists or not
+  const product = await Product.findById(req.params.id);
+=> if exists, then use the remove function with await.
+=> The product is still connect with collection, therefore remove can be used.
+
+16. Get detail of one product
+=> first check if the product with specified id exists or not
+=> If not exists then return 500 along with success false 
+=> if exists and return the product along with status 200
+http://localhost:4000/api/v1/products/6363e41948385d4ed644fcc1
+
+Update product by id, delete product by id, and get details of product by id are done.
