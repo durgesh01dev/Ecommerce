@@ -102,3 +102,22 @@ Duplicate products are also stored for now.
 http://localhost:4000/api/v1/products/6363e41948385d4ed644fcc1
 
 Update product by id, delete product by id, and get details of product by id are done.
+
+17. To set different themes for the folders and the files, install the material icon them..
+
+18. to handle different kind of errors, the ErrorHandler class is created within the utils folder in backend
+=> for scenarios when product is not found by id.
+=> The ErrorHandler is defined for handling product not found scenario
+
+19. Making middleware folder within the backend folder. Further make error.js as the middleware which uses the ErrorHandler class from the errorHandler.js
+
+=>. Setting middleware in app.js now after importing the error.js
+//setting error middleware to handle errors
+app.use(ErrorMiddleware);
+
+=>  setting error middleware in controllers now.
+For invalid id, provided it can be cast without error then following error comes-
+-> TypeError: res.status is not a function
+-> it came since order of req, and res is not followed, first req need to be given res within the error.js
+module.exports = (err, res, req, next) => {} //INCORRECT
+module.exports = (err, req, res, next) => {}//CORRECT ORDER
