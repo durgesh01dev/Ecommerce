@@ -132,3 +132,12 @@ module.exports = (err, req, res, next) => {}//CORRECT ORDER
 => For id which can't be casted those issues are also handled, preventing server errors.
 
 AsyncErrorHandler is attached for all the async-await operations.
+
+21. The unhandled Promise rejection is handled
+=> As soon as this rejection event happens, the server is closed
+=> the catch block for the  connectDatabase function with the datbase.js is removed to handle that using the unhandled Promise rejection.
+-> Example, invalid DB_URI
+-> any undefined variable or function usage will be caught by this.
+-> it is defined within the server.js file
+
+unhandled Promise rejection event is defined within the server.js file
