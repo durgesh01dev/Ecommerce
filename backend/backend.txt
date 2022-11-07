@@ -121,3 +121,14 @@ For invalid id, provided it can be cast without error then following error comes
 -> it came since order of req, and res is not followed, first req need to be given res within the error.js
 module.exports = (err, res, req, next) => {} //INCORRECT
 module.exports = (err, req, res, next) => {}//CORRECT ORDER
+
+20. For any request which violates the model requirements and constraints, the issue will arise, for that try-catch or handler needs to be defined.
+=> For async-await operations, it is recommended to use try-catch or handler along with async-await.
+-> The try-catch for each async-await operation will increase the code by a significant amount
+
+=> The AsyncErrorHandler is defined as middleware which use Promise internally along with catch.
+=> Putting AsyncErrorHandler for each async-await operation within the productController.
+-> for createProduct, getAllProducts, getProductDetail, updateProduct, and deleteProduct the errorHandler, AsyncErrorHandler is defined as a wrapper over each of the function definitions.
+=> For id which can't be casted those issues are also handled, preventing server errors.
+
+AsyncErrorHandler is attached for all the async-await operations.

@@ -1,27 +1,28 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorhandler");
+const AsyncErrorHandler = require("../middlewares/AsyncErrorHandler");
 
 //creating the product, only ADMINS can create it
-exports.createProduct = async (req, res, next) => {
+exports.createProduct = AsyncErrorHandler(async (req, res, next) => {
   const product = await Product.create(req.body);
   //on successfully creating product 201 status given
   res.status(201).json({
     success: true,
     product,
   });
-};
+});
 
 //function to get all the products stored in database
-exports.getAllProducts = async (req, res) => {
+exports.getAllProducts = AsyncErrorHandler(async (req, res) => {
   const products = await Product.find();
   res.status(200).json({
     success: true,
     products,
   });
-};
+});
 
 // Get one product details -
-exports.getProductDetail = async (req, res, next) => {
+exports.getProductDetail = AsyncErrorHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   //check if product does not exist
   if (!product) {
@@ -36,10 +37,10 @@ exports.getProductDetail = async (req, res, next) => {
     success: true,
     product,
   });
-};
+});
 
 //function to update the product, only ADMIN can update Product details
-exports.updateProduct = async (req, res, next) => {
+exports.updateProduct = AsyncErrorHandler(async (req, res, next) => {
   //using let so that same variable can updated
   let product = await Product.findById(req.params.id);
   //check if product with specified id is not found
@@ -59,10 +60,10 @@ exports.updateProduct = async (req, res, next) => {
     success: true,
     product,
   });
-};
+});
 
 //function to delete the product based on id - ADMIN
-exports.deleteProduct = async (req, res, next) => {
+exports.deleteProduct = AsyncErrorHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   //check if product does not exist
   if (!product) {
@@ -79,4 +80,4 @@ exports.deleteProduct = async (req, res, next) => {
     success: true,
     message: `Product with id ${req.params.id} is deleted successfully`,
   });
-};
+});
