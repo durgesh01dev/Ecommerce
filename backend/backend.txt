@@ -141,3 +141,6 @@ AsyncErrorHandler is attached for all the async-await operations.
 -> it is defined within the server.js file
 
 unhandled Promise rejection event is defined within the server.js file
+
+22. Explicit error handling for CastError when casting id is also defined.
+-> The CastError subjected to ID is explicitly handled within the error.js file
