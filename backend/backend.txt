@@ -144,3 +144,37 @@ unhandled Promise rejection event is defined within the server.js file
 
 22. Explicit error handling for CastError when casting id is also defined.
 -> The CastError subjected to ID is explicitly handled within the error.js file
+
+23. SEARCH, FILTER, PAGINATION
+1:24:21 mins
+Filter url for products
+http://localhost:4000/products?keyword=productname
+=> query is keyword and its value is someData.
+-> Example- 
+http://localhost:4000/api/v1/products?keyword=Product1
+
+24. FILTER
+24.1. Filtering products based on the category
+=> Here filter function is defined within the ApiFeatures class.
+=> Here we are creating a copy of the object, so that the original object does not get affected.
+=> Further extra fields like keyword, page, limit are removed from the copied object.
+-> keyword is typically a part of search functionality, since whenever a search is made, the term keyword is used.
+-> Term page should not occur. 
+-> limit should also be skipped. It is related to the page. 
+Blow one is working fine-
+http://localhost:4000/api/v1/products?name=Product 3&category= Clothings
+
+24.2 Filter products based on price, to select items within a range
+URL for now-
+http://localhost:4000/api/v1/products?keyword=Product 3&price[gt]= 1000&price[lt]=10000
+=> within mongoDB, $ needs to be used at start with operators like with the gt and lt
+=> ERROR- Error: Resource not found. Invalid: Cast to Number failed for value \"{ gt: ' 1000', lt: '10000' }\" (type Object) at path \"price\" for model \"Product\"
+-> Issue fixed by using JSON.stringify and JSON.parse.
+URL is -
+http://localhost:4000/api/v1/products?keyword=Product 3&price[lte]=15000&price[gte]=1000
+gt is greater than, gte for greater than or equal to.
+lt is less than, lte for less than or equal to.
+
+Product search, filter products based on category, price-range etcetera, are working.
+http://localhost:4000/api/v1/products?keyword=Product 3&Category= Clothings
+http://localhost:4000/api/v1/products?keyword=Product 3&price[lte]=15000&price[gte]=1000
