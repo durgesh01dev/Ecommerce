@@ -178,3 +178,19 @@ lt is less than, lte for less than or equal to.
 Product search, filter products based on category, price-range etcetera, are working.
 http://localhost:4000/api/v1/products?keyword=Product 3&Category= Clothings
 http://localhost:4000/api/v1/products?keyword=Product 3&price[lte]=15000&price[gte]=1000
+
+24.3 PAGINATION
+Setting limit on number of products that can be shown on a single page.
+=> defining the limit for product on single page in getAllProducts function as resultPerPage
+=> define pagination method in ApiFeatures class and page the variable resultPerPage to method.
+=> The limit for products to be skipped to be shown a given page is done.
+=> setting the limit for number of results to be returned in MongoDB query.
+-> db.collection.find().limit()
+-> https://www.w3schools.in/mongodb/limiting-query-result
+-> To count all the documents present within the database
+const productCount = await Product.countDocuments();
+
+URL-
+http://localhost:4000/api/v1/products?Category= Clothings&page=3
+
+Pagination part done, limiting number of products to be shown on a page.

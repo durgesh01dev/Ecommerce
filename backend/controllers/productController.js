@@ -1,8 +1,7 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorhandler");
 const AsyncErrorHandler = require("../middlewares/AsyncErrorHandler");
-const ApiFeatures = require('../utils/apiFeatures');
-
+const ApiFeatures = require("../utils/apiFeatures");
 
 //creating the product, only ADMINS can create it
 exports.createProduct = AsyncErrorHandler(async (req, res, next) => {
@@ -16,12 +15,19 @@ exports.createProduct = AsyncErrorHandler(async (req, res, next) => {
 
 //function to get all the products stored in database
 exports.getAllProducts = AsyncErrorHandler(async (req, res) => {
-  const apiFeature = new ApiFeatures(Product.find(), req.query).search().filter();
+  const resultPerPage = 5;
+  //storing productCount to be used in the frontend
+  const productCount = await Product.countDocuments();
+  const apiFeature = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultPerPage);
+
   const products = await apiFeature.query;
-  
   res.status(200).json({
     success: true,
     products,
+    productCount,
   });
 });
 
