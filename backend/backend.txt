@@ -283,4 +283,34 @@ Ensure the spacing between the key and value is not there in env file.
 31. Defining a separate tokenSender function in utils folder to remove redundant code for sending response.
 => This response comprises token in cookie and in response, user object, and status code
 
-User Authentication process is done, i.e., login and registration process as well using jwt token
+User login and registration process using the jwt token is done.
+
+32. Defining the isAuthenticatedUser function is auth.js
+32.1 Use the cookie-parser within the app.js file
+32.2 Extract the token from the req.cookies along with the destructuring technique.
+32.3 In case the token does not exist, send the response using the ErrorHandler along 401  bad request.
+32.4 If token is valid, then verify the token with JWT secret key, and store the decodedData.
+32.5 Now search user associated with the  decodedData.id in database. Further store it in request, as req.user
+32.6 call the next one in line.
+
+
+33. Define the logout user function in userController.
+=> The values are stored in req.cookie function. 3 values are modified.
+33.1 Set token as parameter 1
+33.2 First value for token is null
+33.3 for options,  expires is set at current date time, Date.now()
+=>  Set httpOnly true.
+
+33.4 Send the success response along with message Logged Out.
+
+33.5 http://localhost:4000/api/v1/products
+If an attempt is made access the products now, then message is- 
+"success": false,
+"message": "Error: Please Login to access this resource\
+
+Normally to access all the available products, login is not required, here it is done just to check functionality.
+
+Now the middleware to check  whether the user has been authenticated is implemented. Further functions loginUser, logout are implemented in userController successfully.
+
+34. 
+2:30:00 mins continue again...
