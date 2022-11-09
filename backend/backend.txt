@@ -179,7 +179,7 @@ Product search, filter products based on category, price-range etcetera, are wor
 http://localhost:4000/api/v1/products?keyword=Product 3&Category= Clothings
 http://localhost:4000/api/v1/products?keyword=Product 3&price[lte]=15000&price[gte]=1000
 
-24.3 PAGINATION
+25 PAGINATION
 Setting limit on number of products that can be shown on a single page.
 => defining the limit for product on single page in getAllProducts function as resultPerPage
 => define pagination method in ApiFeatures class and page the variable resultPerPage to method.
@@ -194,3 +194,93 @@ URL-
 http://localhost:4000/api/v1/products?Category= Clothings&page=3
 
 Pagination part done, limiting number of products to be shown on a page.
+
+26. BACKEND USER AND PASSWORD AUTHENTICATION
+26.1 Installing the bcryptjs dependency
+npm i bcryptjs jsonwebtoken validator nodemailer cookie-parser body-parser
+
+1. bcryptjs use-
+The data present within the database can be read easily if database is accessible, it is better to store password in encrypted form. 
+
+2. jsonwebtoken
+=> For generation of the access tokens
+=> https://www.npmjs.com/package/bcryptjs
+
+3. validator
+=> for validating the email field, check if it is valid one
+=> https://www.npmjs.com/package/validator
+
+4. nodemailer
+=> for easily sending mails within the nodejs
+=> https://www.freecodecamp.org/news/use-nodemailer-to-send-emails-from-your-node-js-server/
+
+5. cookie-parser
+=> For storing token generated using jsonwebtoken in cookies
+
+6. body-parser
+=> It is body-parsing middleware in nodejs
+=> https://www.npmjs.com/package/body-parser
+
+27. Making a User Model
+The fields it comprises includes-
+  name,  email,  password,
+  avatar has public_id and url,  role,
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+
+=> The select:false attribute ensures that when find method is called on the model, all fields except the attribute on select:false is used, should be returned.
+-> This is normally used on password to prevent from returning when query is executed on the model.
+
+28. Making a UserController
+28.1 Function defined to register a user, further exported.
+28.2 The userRoute is created, along with post request to handle the reguest having the url '/register' at the end. Further the route is exported
+28.3 The exported route is used within the app.js.
+=> Just after the product route, the route for the user is defined with url as '/api/v1'
+=> URL to register the user + POST
+http://localhost:4000/api/v1/register
+
+29 Right now password is saved in plain text, it should be stored in encrypted form, so that even the database is comprised, the password remain safe, like another level of security.
+29.1 use the bcryptjs within userModel.js file
+29.2 Using the pre-save hook, a middleware, to execute prior to saving the document.
+=> work on save event to encrypt the password prior to saving the database.
+-> Also ensure the password is only encrypted if it has changed.
+this.password = await bcrypt.hash(this.password, 10);
+-> The normal function is used within pre-save hook function.
+
+29.3 Pre-save hooks in mongoose.js
+https://medium.com/@justinmanalad/pre-save-hooks-in-mongoose-js-cf1c0959dba2
+
+30. JWT Token within the user model
+=> Idea is to generate the token and save it in the cookie.
+=> https://www.matoski.com/article/jwt-express-node-mongoose/#jwt
+30.1 Possible errors
+=> https://stackoverflow.com/questions/67756906/mongoose-schema-method-returning-is-not-a-function
+=> official docs- 
+https://mongoosejs.com/docs/guide.html#methods
+
+30.2 Further call the getJWTToken method within the the registerUser function right before sending the response in UserController.js
+30.3 Define values in env file, cong.env
+=> JWT_EXPIRE and JWT_SECRET
+
+30.4 Error is, https://stackoverflow.com/questions/58673430/error-secretorprivatekey-must-have-a-value
+Ensure the spacing between the key and value is not there in env file.
+=> https://9to5answer.com/secretorprivatekey-must-have-a-value
+
+30.5 Login the user, define within the UserController file.
+=> wrap the loginUser function within the AsyncErrorHandler
+=> extract email, password by destructuring
+=> further validate them, if invalid then return 400 bad request.
+30.5.1 Now find the user having the specified email and use the select attribute to fetch the result based on password field.
+30.5.2 Check in case the user does not exist, return unauthorized request, 401
+30.5.3 Now compare the passwords if they match by calling the comparePassword function defined within the userModel.js file`
+30.5.4 In case the password has matched, get the token by calling getJWTToken function.
+30.5.5 Further return the success response along with token, 200 response code, OK
+
+30.6 Define comparePassword function within the usermodel. 
+=> Use the bcryptjs to compare the plain text entered password with the  encrypted password present within the datbase.
+=> return await bcrypt.compare(enteredPassword, this.password);
+
+31. Defining a separate tokenSender function in utils folder to remove redundant code for sending response.
+=> This response comprises token in cookie and in response, user object, and status code
+
+User Authentication process is done, i.e., login and registration process as well using jwt token
